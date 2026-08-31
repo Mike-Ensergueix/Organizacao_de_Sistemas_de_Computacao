@@ -5,7 +5,7 @@ TITLE ATIV3
 MSG1 DB "Digite um caractere: $"
 SIM DB 10,13,'O caractere digitado e um numero.',10,13,"$"
 NAO DB 10,13,'O caractere digitado e letra.',10,13,"$"
-DESC DB 10,13,'O caractere digitado e desconhecido.',10,13,"$"
+DESCO DB 10,13,'O caractere digitado e desconhecido.',10,13,"$"
 .CODE
 main proc
     mov ax,@DATA
@@ -32,42 +32,44 @@ INICIO:
     JB DESC
     ; Compara o caractere em BL com o valor 57 (código ASCII do caractere “9”)
 
-
-        CMP BL,65
-        ; Se o caractere em BL for menor que 48 (“0”), salta para o rótulo NAOENUMERO
-        JB DESC
-    ; Compara o caractere em BL com o valor 57 (código ASCII do caractere “9”)
-
-
-            CMP BL,97
-            ; Se o caractere em BL for menor que 48 (“0”), salta para o rótulo NAOENUMERO
-            JB DESC
-            ; Compara o caractere em BL com o valor 57 (código ASCII do caractere “9”)
-            CMP BL,122
-            ; Se o caractere em BL for maior que 57 (“9”), salta para o rótulo NAOENUMERO
-            JA DESC
-
-            JMP ELETRA
-
-        CMP BL,90
-        ; Se o caractere em BL for maior que 57 (“9”), salta para o rótulo NAOENUMERO
-        JA DESC
-
-        JMP ELETRA
-
     CMP BL,57
     ; Se o caractere em BL for maior que 57 (“9”), salta para o rótulo NAOENUMERO
-    JA DESC
+    JA ELETRA
 
     JMP ENUMERO
 
 DESC:
     ; Se chegou até aqui, exibe na tela dizendo que o caracter é um número
     MOV AH,9
-    LEA DX, DESC
+    LEA DX, DESCO
     INT 21h
     JMP INICIO
 ELETRA:
+
+   CMP BL,65
+        ; Se o caractere em BL for menor que 48 (“0”), salta para o rótulo NAOENUMERO
+        JB DESC
+    ; Compara o caractere em BL com o valor 57 (código ASCII do caractere “9”)
+        CMP BL,90
+        ; Se o caractere em BL for maior que 57 (“9”), salta para o rótulo NAOENUMERO
+        JA ELETRAM
+
+    MOV AH,9
+    LEA DX, NAO
+    INT 21h
+    ; Salta para o rótulo FIM
+    JMP INICIO
+
+ELETRAM:
+
+            CMP BL,97
+            ; Se o caractere em BL for menor que 48 (“0”), salta para o rótulo NAOENUMERO
+            JB DESC
+            ; Compara o caractere em BL com o valor 57 (código ASCII do caractere “9”)
+            CMP BL,122
+    ; Se o caractere em BL for maior que 57 (“9”), salta para o rótulo NAOENUMERO
+    JA DESC
+
     MOV AH,9
     LEA DX, NAO
     INT 21h
