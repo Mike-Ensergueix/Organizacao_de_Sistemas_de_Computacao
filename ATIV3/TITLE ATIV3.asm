@@ -36,14 +36,13 @@ INICIO:
     ; Se o caractere em BL for maior que 57 (“9”), salta para o rótulo NAOENUMERO
     JA ELETRA
 
-    JMP ENUMERO
-
-DESC:
-    ; Se chegou até aqui, exibe na tela dizendo que o caracter é um número
+    ; Exibe na tela dizendo que o caractere é um número
     MOV AH,9
-    LEA DX, DESCO
+    LEA DX, SIM
     INT 21h
-    JMP INICIO
+
+    jmp INICIO
+
 ELETRA:
 
    CMP BL,65
@@ -62,11 +61,11 @@ ELETRA:
 
 ELETRAM:
 
-            CMP BL,97
-            ; Se o caractere em BL for menor que 48 (“0”), salta para o rótulo NAOENUMERO
-            JB DESC
-            ; Compara o caractere em BL com o valor 57 (código ASCII do caractere “9”)
-            CMP BL,122
+    CMP BL,97
+    ; Se o caractere em BL for menor que 48 (“0”), salta para o rótulo NAOENUMERO
+    JB DESC
+    ; Compara o caractere em BL com o valor 57 (código ASCII do caractere “9”)
+    CMP BL,122
     ; Se o caractere em BL for maior que 57 (“9”), salta para o rótulo NAOENUMERO
     JA DESC
 
@@ -76,12 +75,12 @@ ELETRAM:
     ; Salta para o rótulo FIM
     JMP INICIO
     ; Define o rótulo NAOENUMERO
-ENUMERO:
-    ; Exibe na tela dizendo que o caractere não é um número
+DESC:
+    ; Se chegou até aqui, exibe na tela dizendo que o caracter é um número
     MOV AH,9
-    LEA DX, SIM
+    LEA DX, DESCO
     INT 21h
-    jmp INICIO
+    JMP INICIO
     ; Define o rótulo FIM
 FIM:
 ; Finaliza o programa
