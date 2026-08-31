@@ -5,7 +5,7 @@ TITLE ATIV3
 MSG1  DB "Digite um caractere: $"
 NUM   DB 10,13,'O caractere digitado eh um numero.',10,13,"$"
 LET   DB 10,13,'O caractere digitado eh uma letra.',10,13,"$"
-DESCO DB 10,13,'O caractere digitado eh desconhecido.',10,13,"$"
+DESC DB 10,13,'O caractere digitado eh desconhecido.',10,13,"$"
 .CODE
 main proc
 ;Inicia DS e Permite acesso as variaveis
@@ -29,10 +29,10 @@ INICIO:
 ;Verificação Número
 
     CMP BL,48     ;Compara o caractere em BL com o valor 48 (código ASCII do caractere “0”)
-    JB DESC       ;Se o caractere < 48 (“0”), salta para o rótulo DESC (Desconhecido)
+    JB IMPRIME_DESCONHECIDO       ;Se o caractere < 48 (“0”), salta para o rótulo IMPRIME_DESCONHECIDO (Desconhecido)
 
     CMP BL,57     ;Compara o caractere em BL com o valor 57 (código ASCII do caractere “9”)
-    JA ELETRA     ;Se o caractere em BL > 57 (“9”), pode ser Letra, pula para la
+    JA VERIFICA_MAIUSCULA     ;Se o caractere em BL > 57 (“9”), pode ser Letra, pula para la
 
 ;Caso passe pelas verificações é Número; Exibe na tela dizendo que o caractere é um Número
     MOV AH,9      ;Move função 9(Print String) para AH
@@ -41,13 +41,13 @@ INICIO:
 
     jmp INICIO    ;Volta ao Inicio do Programa
 
-ELETRA:           
+VERIFICA_MAIUSCULA:           
 ;Verificação de Letra Maiuscula
     CMP BL,65     ;Compara o caractere em BL com o valor 65 (código ASCII do caractere “A”)
-    JB DESC       ;Se o caractere < 65 (“A”), salta para o rótulo DESC (Desconhecido)
+    JB IMPRIME_DESCONHECIDO       ;Se o caractere < 65 (“A”), salta para o rótulo IMPRIME_DESCONHECIDO (Desconhecido)
     
     CMP BL,90     ;Compara o caractere em BL com o valor 90 (código ASCII do caractere “Z”)
-    JA ELETRAM    ;Se o caractere > 57 (“Z”), pode ser Letra Minúscula, pula pra la
+    JA VERIFICA_MINUSCULA    ;Se o caractere > 57 (“Z”), pode ser Letra Minúscula, pula pra la
 
 ;Caso passe pelas verificações é Letra; Exibe na tela dizendo que o caractere é uma Letra
     MOV AH,9      ;Move função 9(Print String) para AH
@@ -56,13 +56,13 @@ ELETRA:
 
     JMP INICIO    ;Volta ao Inicio do Programa
 
-ELETRAM:          
+VERIFICA_MINUSCULA:          
 ;Verificação de Letra Minúscula
     CMP BL,97     ;Compara o caractere em BL com o valor 97 (código ASCII do caractere “a”)
-    JB DESC       ;Se o caractere < 97 (“a”), salta para o rótulo DESC (Desconhecido)
+    JB IMPRIME_DESCONHECIDO       ;Se o caractere < 97 (“a”), salta para o rótulo IMPRIME_DESCONHECIDO (Desconhecido)
     
     CMP BL,122    ;Compara o caractere em BL com o valor 122 (código ASCII do caractere “z”)
-    JA DESC       ;Se o caractere > 122 (“z”), salta para o rótulo DESC (Desconhecido)
+    JA IMPRIME_DESCONHECIDO       ;Se o caractere > 122 (“z”), salta para o rótulo IMPRIME_DESCONHECIDO (Desconhecido)
 
 ;Caso passe pelas verificações é Letra; Exibe na tela dizendo que o caractere é uma Letra
     MOV AH,9      ;Move função 9(Print String) para AH
@@ -70,10 +70,10 @@ ELETRAM:
     INT 21h       ;Executa a função em AH printando o que está em DX
 
     JMP INICIO    ;Volta ao Inicio do Programa
-DESC:
+IMPRIME_DESCONHECIDO:
 ;Roda apenas se passar em verificação
     MOV AH,9      ;Move função 9(Print String) para AH
-    LEA DX, DESCO ;Endereça DX para o offset de DESCO
+    LEA DX, DESC ;Endereça DX para o offset de DESC
     INT 21h       ;Executa a função em AH printando o que está em DX
 
     JMP INICIO    ;Volta ao Inicio do Programa
