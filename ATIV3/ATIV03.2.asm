@@ -2,7 +2,7 @@ TITLE ATIV3
 .model small
 .STACK 100h
 .DATA
-MSG1  DB "Digite um caractere: $"
+MSG1  DB "Digite um caractere (ESC para SAIR!): $"
 NUM   DB 10,13,'O caractere digitado eh um numero.',10,13,"$"
 LET   DB 10,13,'O caractere digitado eh uma letra.',10,13,"$"
 DESC DB 10,13,'O caractere digitado eh desconhecido.',10,13,"$"
