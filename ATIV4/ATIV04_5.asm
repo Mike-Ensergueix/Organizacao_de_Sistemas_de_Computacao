@@ -7,7 +7,7 @@ main proc
 mov ax, @data
 mov ds, ax
 
-xor bl, bl
+xor bx, bx
 mov cx, 5 ; prepara para 5 leituras
 
 leitura:
